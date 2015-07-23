@@ -1,5 +1,5 @@
 """
-Usage: view [--no-pager] [--lexer LEXER] [--theme THEME] <file>
+Usage: c [--no-pager] [--lexer LEXER] [--theme THEME] <file>
 
 Options:
   --no-pager                Disable paging
@@ -9,7 +9,6 @@ Options:
 
 
 import os
-import sys
 from click import echo_via_pager
 from docopt import docopt
 from pygments import highlight
