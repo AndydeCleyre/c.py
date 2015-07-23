@@ -10,7 +10,7 @@ setup(
     url='https://github.com/rumpelsepp/show',
     license='MIT',
     py_modules=['c'],
-    install_requires=['click', 'pygments'],
+    install_requires=['click','docopt', 'pygments'],
     entry_points={
         'console_scripts': [
             'c = c:main',
