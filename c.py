@@ -32,13 +32,13 @@ def get_lexer(filename, data, lexer='auto'):
     results the fallback value TextLexer() is returned.
 
     Args:
-        filename        The name of the file to be displayed
-        data            The content of the file (utf-8 encoded)
-        lexer           Specifying another value than 'auto' skips any
-                        guess_lexer() calls. The pygments method
-                        get_lexer_by_name() is used to find a particular
-                        lexer class. If nothing has been found, c.py
-                        fails.
+        filename    The name of the file to be displayed
+        data        The content of the file (utf-8 encoded)
+        lexer       Specifying another value than 'auto' skips any
+                    guess_lexer() calls. The pygments method
+                    get_lexer_by_name() is used to find a particular
+                    lexer class. If nothing has been found, c.py
+                    fails.
     """
     if lexer == 'auto':
         try:
@@ -67,7 +67,12 @@ def get_formatter(theme):
     supplied theme enabled.
 
     This method wraps the instantiation of Terminal256Formatter.
-    If the supplied theme is invalid c.py fails.'.
+    If the supplied theme is invalid c.py fails.
+
+    Arg:
+        theme   The name of the theme as a string. Check out
+                http://pygments.org to get a list of supported
+                themes.
     """
     try:
         return Terminal256Formatter(style=theme)
