@@ -95,9 +95,10 @@ def cli(args):
     if args['--no-pager']:
         print(out)
     else:
+        # This behaviour is similar to that what git does:
+        # https://github.com/git/git/blob/master/Documentation/config.txt#L646
         if 'LESS' not in os.environ:
             os.environ['LESS'] = 'FRX'
-
         echo_via_pager(out)
 
 
