@@ -1,9 +1,10 @@
 """
-Usage: view [--no-pager] [--lexer LEXER] <file>
+Usage: view [--no-pager] [--lexer LEXER] [--theme THEME] <file>
 
 Options:
   --no-pager                Disable paging
   -l LEXER, --lexer LEXER   Specify a particular lexer [default: auto]
+  -t THEME, --theme THEME   Specify a particular theme [default: friendly]
 """
 
 
@@ -60,12 +61,27 @@ def get_lexer(filename, data, lexer='auto'):
     return lexer_cls
 
 
+def get_formatter(theme):
+    """
+    Returns a Terminal256Formatter class with the
+    supplied theme enabled.
+
+    This method wraps the instantiation of Terminal256Formatter.
+    If the supplied theme is invalid c.py fails.'.
+    """
+    try:
+        return Terminal256Formatter(style=theme)
+    except ClassNotFound:
+        print('Error: Invalid theme!')
+        exit(1)
+
+
 def cli(args):
     filename = args['<file>']
     with open(filename) as f:
         data = f.read()
 
-    formatter = Terminal256Formatter(style='friendly')
+    formatter = get_formatter(args['--theme'])
     lexer = get_lexer(filename, data, args['--lexer'])
 
     # Highlight! :-)
