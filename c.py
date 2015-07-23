@@ -20,6 +20,9 @@ from pygments.lexers import get_lexer_by_name
 from pygments.formatters import Terminal256Formatter
 
 
+__version__ = '0.1.0'
+
+
 def get_lexer(filename, data, lexer='auto'):
     """
     Return a particular lexer instance.
@@ -103,4 +106,4 @@ def cli(args):
 
 def main():
     """Main entry point; needed for setuptools"""
-    cli(docopt(__doc__))
+    cli(docopt(__doc__, version=__version__))

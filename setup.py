@@ -1,9 +1,10 @@
 from setuptools import setup
+import c
 
 
 setup(
     name='c.py',
-    version='0.0.0',
+    version=c.__version__,
     description='A [c]at replacement with automatic syntax highlighting',
     author='Stefan Tatschner',
     author_email='rumpelsepp@sevenbyte.org',
