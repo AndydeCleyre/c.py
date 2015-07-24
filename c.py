@@ -82,7 +82,7 @@ def get_lexer(filename, data, lexer='auto'):
 
 def get_formatter(theme, linenos=False):
     """
-    Returns a Terminal256Formatter class with the
+    Return a Terminal256Formatter class with the
     supplied theme enabled.
 
     This method wraps the instantiation of Terminal256Formatter.
