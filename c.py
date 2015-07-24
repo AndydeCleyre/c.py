@@ -20,6 +20,7 @@ from pygments.lexers import get_lexer_by_name
 from pygments.formatters import Terminal256Formatter
 
 
+C_PYGMENTS_THEME_DEFAULT = 'friendly'
 __version__ = '0.1.0'
 
 
@@ -91,8 +92,20 @@ def get_formatter(theme):
                 http://pygments.org to get a list of supported
                 themes.
     """
+    theme_from_env = os.getenv('C_PYGMENTS_THEME')
+    # Check whether C_PYGMENTS_THEME is set and whether
+    # it is NOT equal to the default theme. In that case
+    # it can be overwritten by the command line switch
+    # "--theme THEME".
+    if theme_from_env and theme_from_env != C_PYGMENTS_THEME_DEFAULT:
+        if theme != C_PYGMENTS_THEME_DEFAULT:
+            used_theme = theme
+        else:
+            used_theme = theme_from_env
+    else:
+        used_theme = theme
     try:
-        return Terminal256Formatter(style=theme)
+        return Terminal256Formatter(style=used_theme)
     except ClassNotFound:
         print('Error: Invalid theme!')
         exit(1)
