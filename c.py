@@ -23,6 +23,21 @@ from pygments.formatters import Terminal256Formatter
 __version__ = '0.1.0'
 
 
+def read_file(filename):
+    """
+    Return the content of 'filename'.
+
+    If any error occurs this method prints an appropriate error
+    message and causes 'c.py' to exit with return code 1.
+    """
+    try:
+        with open(filename) as f:
+            return f.read()
+    except FileNotFoundError:
+        print('Error: File does not exist!')
+        exit(1)
+
+
 def get_lexer(filename, data, lexer='auto'):
     """
     Return a particular lexer instance.
@@ -85,9 +100,7 @@ def get_formatter(theme):
 
 def cli(args):
     filename = args['<file>']
-    with open(filename) as f:
-        data = f.read()
-
+    data = read_file(filename)
     formatter = get_formatter(args['--theme'])
     lexer = get_lexer(filename, data, args['--lexer'])
 
