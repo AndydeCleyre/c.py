@@ -38,6 +38,9 @@ def read_file(filename):
     except FileNotFoundError:
         print('Error: File does not exist!')
         exit(1)
+    except IsADirectoryError:
+        print('Error: Is a directory!')
+        exit(1)
 
 
 def get_lexer(filename, data, lexer='auto'):
