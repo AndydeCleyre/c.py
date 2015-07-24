@@ -112,7 +112,7 @@ def cli(args):
         os.getenv('PAGER') == 'cat'):
         print(out)
     else:
-        # This behaviour is similar to that what git does:
+        # This behaviour is similar to git:
         # https://github.com/git/git/blob/master/Documentation/config.txt#L646
         if 'LESS' not in os.environ:
             os.environ['LESS'] = 'FRX'
