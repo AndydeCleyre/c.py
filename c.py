@@ -107,7 +107,9 @@ def cli(args):
     # Highlight! :-)
     out = highlight(data, lexer, formatter)
 
-    if args['--no-pager']:
+    # TODO: Other pagers than less should be supported!
+    if (args['--no-pager'] or 'C_NO_PAGER' in os.environ or
+        os.getenv('PAGER') == 'cat'):
         print(out)
     else:
         # This behaviour is similar to that what git does:
