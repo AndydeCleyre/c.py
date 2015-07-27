@@ -1,0 +1,56 @@
+= c(1)
+:doctype:    manpage
+:man source: c.py
+
+== Name
+
+c.py - a replacement for [c]at with automatic syntax highlighting
+
+== Synopsis
+
+....
+c [--no-pager] [--lexer LEXER] [--theme THEME] <file>
+....
+
+== Description
+
+c.py aims to be a drop-in replacement for the well known tool cat(1). c.py
+is written in Python and provides some advantages over cat, for instance
+automatic syntax highlighting using the excellent pygments library. The
+output is piped through the pager `less` per default. The environment
+variable `LESS` is set to `FRS` by c.py to ensure that colors are displayed
+properly. The pager exits if the output fits into the screen.
+
+== Options
+
+--no-pager::
+    Do not pipe the output c.py's output into a pager. Setting the environment
+    variable `C_NO_PAGER` to a non-empty value also disabled paging.
+
+-l LEXER::
+--lexer LEXER::
+    This option forces c.py to use a particular lexer; it does not try to guess
+    one. This setting is useful when c.py guesses the wrong lexer. To disable
+    highlighting use `--lexer text`. A list of supported lexers can be obtained
+    from the pygments' project page.
+
+-t THEME::
+--theme THEME::
+    Use another theme instead of the default pygment's theme `friendly`. The
+    theme can also be set using the environment variable `C_PYGMENTS_THEME`.
+    A list of supported themes can be obtained from the pygments' project page.
+
+== Bugs
+
+Bugs? You must be kidding; there are no bugs in this software. But if we
+happen to be wrong, send us an email with as much detail as possible to
+mailto:rumpelsepp@sevenbyte.org[].
+
+== Author
+
+Current maintainer:
+
+* Stefan Tatschner <rumpelsepp@sevenbyte.org>
+
+For additional contributors, use `git shortlog -sne` on the c.py.git
+repository.
