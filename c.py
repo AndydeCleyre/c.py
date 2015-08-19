@@ -17,7 +17,7 @@ from pygments.lexers import TextLexer
 from pygments.lexers import guess_lexer
 from pygments.lexers import guess_lexer_for_filename
 from pygments.lexers import get_lexer_by_name
-from pygments.formatters import Terminal256Formatter
+from pygments.formatters import TerminalFormatter
 
 
 C_PYGMENTS_THEME_DEFAULT = 'friendly'
@@ -105,7 +105,7 @@ def get_formatter(theme):
     else:
         used_theme = theme
     try:
-        return Terminal256Formatter(style=used_theme)
+        return TerminalFormatter(style=used_theme, bg='dark')
     except ClassNotFound:
         print('Error: Invalid theme!')
         exit(1)
