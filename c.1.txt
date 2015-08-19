@@ -9,7 +9,7 @@ c.py - a replacement for [c]at with automatic syntax highlighting
 == Synopsis
 
 ....
-c [--no-pager] [--lexer LEXER] [--theme THEME] <file>
+c [--no-pager] [--number] [--lexer LEXER] [--theme THEME] <file>
 ....
 
 == Description
@@ -26,6 +26,10 @@ properly. The pager exits if the output fits into the screen.
 --no-pager::
     Do not pipe the output c.py's output into a pager. Setting the environment
     variable `C_NO_PAGER` to a non-empty value also disabled paging.
+
+-n::
+--number::
+    Number all output lines.
 
 -l LEXER::
 --lexer LEXER::

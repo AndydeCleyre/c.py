@@ -1,8 +1,9 @@
 """
-Usage: c [--no-pager] [--lexer LEXER] [--theme THEME] <file>
+Usage: c [--no-pager] [--number] [--lexer LEXER] [--theme THEME] <file>
 
 Options:
   --no-pager                Disable paging
+  -n, --number              Number all output lines
   -l LEXER, --lexer LEXER   Specify a particular lexer [default: auto]
   -t THEME, --theme THEME   Specify a particular theme [default: friendly]
 """
@@ -79,7 +80,7 @@ def get_lexer(filename, data, lexer='auto'):
     return lexer_cls
 
 
-def get_formatter(theme):
+def get_formatter(theme, linenos=False):
     """
     Returns a Terminal256Formatter class with the
     supplied theme enabled.
@@ -105,7 +106,7 @@ def get_formatter(theme):
     else:
         used_theme = theme
     try:
-        return TerminalFormatter(style=used_theme, bg='dark')
+        return TerminalFormatter(style=used_theme, bg='dark', linenos=linenos)
     except ClassNotFound:
         print('Error: Invalid theme!')
         exit(1)
@@ -114,7 +115,7 @@ def get_formatter(theme):
 def cli(args):
     filename = args['<file>']
     data = read_file(filename)
-    formatter = get_formatter(args['--theme'])
+    formatter = get_formatter(args['--theme'], args['--number'])
     lexer = get_lexer(filename, data, args['--lexer'])
 
     # Highlight! :-)
