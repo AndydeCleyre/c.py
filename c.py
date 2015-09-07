@@ -50,8 +50,11 @@ def read_file(filename):
     """
     try:
         debug("Reading file: '{}'".format(filename))
-        with open(filename) as f:
-            return f.read()
+        if filename == '-':
+            return sys.stdin.read()
+        else:
+            with open(filename) as f:
+                return f.read()
     except Exception as e:
         echo(e, err=True)
         exit(1)
@@ -84,6 +87,9 @@ def get_lexer(filename, data, lexer='auto'):
             debug('Guessing failed, looking for a shebang line')
             if data[0:2] == '#!':
                 debug("Shebang '{}' present".format(data[0:2]))
+                lexer_cls = guess_lexer(data)
+            elif filename == '-':
+                debug("Reading from 'stdin', guessing lexer")
                 lexer_cls = guess_lexer(data)
             else:
                 debug('No shebang present, using fallback lexer')
