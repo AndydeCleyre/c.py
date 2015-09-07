@@ -11,7 +11,7 @@ Options:
 
 import os
 import sys
-from click import echo_via_pager
+from click import echo, echo_via_pager
 from docopt import docopt
 from pygments import highlight
 from pygments.util import ClassNotFound, OptionError
@@ -38,7 +38,7 @@ def debug(msg):
     value, print the supplied message and prefix it with '[Debug] '.
     """
     if C_DEBUG:
-        print('[Debug] {}'.format(msg))
+        echo('[Debug] {}'.format(msg))
 
 
 def read_file(filename):
@@ -53,7 +53,7 @@ def read_file(filename):
         with open(filename) as f:
             return f.read()
     except Exception as e:
-        print(e, file=sys.stderr)
+        echo(e, err=True)
         exit(1)
 
 
@@ -96,7 +96,7 @@ def get_lexer(filename, data, lexer='auto'):
             debug("Trying to find lexer: '{}'".format(lexer))
             lexer_cls = get_lexer_by_name(lexer)
         except ClassNotFound:
-            print("[Error] No lexer found: '{}'".format(lexer), file=sys.stderr)
+            echo("[Error] No lexer found: '{}'".format(lexer), err=True)
             exit(1)
 
     debug('Using lexer: {}'.format(lexer_cls))
@@ -135,7 +135,7 @@ def get_formatter(theme, linenos=False):
     try:
         return TerminalFormatter(bg=used_theme, linenos=linenos)
     except OptionError:
-        print("[Error] Invalid theme: '{}'".format(used_theme), file=sys.stderr)
+        echo("[Error] Invalid theme: '{}'".format(used_theme), err=True)
         exit(1)
 
 
@@ -147,7 +147,7 @@ def cli(args):
     out = highlight(data, lexer, formatter)
 
     if args['--no-pager'] or C_NO_PAGER or PAGER == 'cat':
-        print(out)
+        echo(out)
     else:
         echo_via_pager(out)
 
