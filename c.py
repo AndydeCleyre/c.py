@@ -49,10 +49,11 @@ def read_file(filename):
     message and causes 'c.py' to exit with return code 1.
     """
     try:
-        debug("Reading file: '{}'".format(filename))
         if filename == '-':
+            debug('Reading stdin')
             return sys.stdin.read()
         else:
+            debug("Reading file: '{}'".format(filename))
             with open(filename) as f:
                 return f.read()
     except Exception as e:
