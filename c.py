@@ -10,6 +10,7 @@ Options:
 
 
 import os
+import sys
 from click import echo_via_pager
 from docopt import docopt
 from pygments import highlight
@@ -35,11 +36,8 @@ def read_file(filename):
     try:
         with open(filename) as f:
             return f.read()
-    except FileNotFoundError:
-        print('Error: File does not exist!')
-        exit(1)
-    except IsADirectoryError:
-        print('Error: Is a directory!')
+    except Exception as e:
+        print(e, file=sys.stderr)
         exit(1)
 
 
