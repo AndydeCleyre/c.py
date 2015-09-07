@@ -23,7 +23,17 @@ from pygments.formatters import TerminalFormatter
 
 
 C_PYGMENTS_THEME_DEFAULT = 'dark'
+C_DEBUG = True if 'C_DEBUG' in os.environ else False
 __version__ = '0.1.0'
+
+
+def debug(msg):
+    """
+    When the environment variable 'C_DEBUG' is set to a non empty
+    value, print the supplied message and prefix it with '[Debug] '.
+    """
+    if C_DEBUG:
+        print('[Debug] {}'.format(msg))
 
 
 def read_file(filename):
@@ -34,6 +44,7 @@ def read_file(filename):
     message and causes 'c.py' to exit with return code 1.
     """
     try:
+        debug("Reading file: '{}'".format(filename))
         with open(filename) as f:
             return f.read()
     except Exception as e:
@@ -61,23 +72,29 @@ def get_lexer(filename, data, lexer='auto'):
                     fails.
     """
     if lexer == 'auto':
+        debug('Guessing lexer')
         try:
             lexer_cls = guess_lexer_for_filename(filename, data)
         except ClassNotFound:
-            # Check if there is any shebang.
+            debug('Guessing failed, looking for a shebang line')
             if data[0:2] == '#!':
+                debug("Shebang '{}' present".format(data[0:2]))
                 lexer_cls = guess_lexer(data)
             else:
+                debug('No shebang present, using fallback lexer')
                 lexer_cls = TextLexer()
         except TypeError:
+            debug('Guessing failed, using fallback lexer')
             lexer_cls = TextLexer()
     else:
         try:
+            debug("Trying to find lexer: '{}'".format(lexer))
             lexer_cls = get_lexer_by_name(lexer)
         except ClassNotFound:
-            print("[Error] No lexer '{}' found".format(lexer), file=sys.stderr)
+            print("[Error] No lexer found: '{}'".format(lexer), file=sys.stderr)
             exit(1)
 
+    debug('Using lexer: {}'.format(lexer_cls))
     return lexer_cls
 
 
@@ -94,6 +111,7 @@ def get_formatter(theme, linenos=False):
                 http://pygments.org to get a list of supported
                 themes.
     """
+    debug('Choosing theme')
     theme_from_env = os.getenv('C_PYGMENTS_THEME')
     # Check whether C_PYGMENTS_THEME is set and whether
     # it is NOT equal to the default theme. In that case
@@ -106,6 +124,9 @@ def get_formatter(theme, linenos=False):
             used_theme = theme_from_env
     else:
         used_theme = theme
+
+    debug("Using theme '{}'".format(used_theme))
+
     try:
         return TerminalFormatter(bg=used_theme, linenos=linenos)
     except OptionError:
