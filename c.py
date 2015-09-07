@@ -1,5 +1,5 @@
 """
-Usage: c [--no-pager] [--number] [--lexer LEXER] [--theme THEME] <file>
+Usage: c [--no-pager] [--number] [--lexer LEXER] [--theme THEME] [--] <file>...
 
 Options:
   --no-pager                Disable paging
@@ -140,16 +140,21 @@ def get_formatter(theme, linenos=False):
 
 
 def cli(args):
-    filename = args['<file>']
-    data = read_file(filename)
-    formatter = get_formatter(args['--theme'], args['--number'])
-    lexer = get_lexer(filename, data, args['--lexer'])
-    out = highlight(data, lexer, formatter)
+    filenames = args['<file>']
+    out = ''
+
+    for filename in filenames:
+        data = read_file(filename)
+        # The formatter needs to be reinitialized. Otherwise
+        # the line numbers are continued over several files.
+        formatter = get_formatter(args['--theme'], args['--number'])
+        lexer = get_lexer(filename, data, args['--lexer'])
+        out += highlight(data, lexer, formatter)
 
     if args['--no-pager'] or C_NO_PAGER or PAGER == 'cat':
-        echo(out)
+        echo(out, color=True)
     else:
-        echo_via_pager(out)
+        echo_via_pager(out, color=True)
 
 
 def main():
