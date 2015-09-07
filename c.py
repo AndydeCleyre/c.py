@@ -4,8 +4,8 @@ Usage: c [--no-pager] [--number] [--lexer LEXER] [--theme THEME] <file>
 Options:
   --no-pager                Disable paging
   -n, --number              Number all output lines
-  -l LEXER, --lexer LEXER   Specify a particular lexer [default: auto]
-  -t THEME, --theme THEME   Specify a particular theme [default: friendly]
+  -l LEXER, --lexer LEXER   Specify a particular lexer        [default: auto]
+  -t THEME, --theme THEME   Choose a theme: 'light' or 'dark' [default: dark]
 """
 
 
@@ -14,7 +14,7 @@ import sys
 from click import echo_via_pager
 from docopt import docopt
 from pygments import highlight
-from pygments.util import ClassNotFound
+from pygments.util import ClassNotFound, OptionError
 from pygments.lexers import TextLexer
 from pygments.lexers import guess_lexer
 from pygments.lexers import guess_lexer_for_filename
@@ -22,7 +22,7 @@ from pygments.lexers import get_lexer_by_name
 from pygments.formatters import TerminalFormatter
 
 
-C_PYGMENTS_THEME_DEFAULT = 'friendly'
+C_PYGMENTS_THEME_DEFAULT = 'dark'
 __version__ = '0.1.0'
 
 
@@ -83,7 +83,7 @@ def get_lexer(filename, data, lexer='auto'):
 
 def get_formatter(theme, linenos=False):
     """
-    Return a Terminal256Formatter class with the
+    Return a TerminalFormatter class with the
     supplied theme enabled.
 
     This method wraps the instantiation of Terminal256Formatter.
@@ -107,9 +107,9 @@ def get_formatter(theme, linenos=False):
     else:
         used_theme = theme
     try:
-        return TerminalFormatter(style=used_theme, bg='dark', linenos=linenos)
-    except ClassNotFound:
-        print('Error: Invalid theme!')
+        return TerminalFormatter(bg=used_theme, linenos=linenos)
+    except OptionError:
+        print("[Error] Invalid theme: '{}'".format(used_theme), file=sys.stderr)
         exit(1)
 
 
