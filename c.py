@@ -139,3 +139,7 @@ def cli(args):
 def main():
     """Main entry point; needed for setuptools"""
     cli(docopt(__doc__, version=__version__))
+
+
+if __name__ == '__main__':
+    main()
