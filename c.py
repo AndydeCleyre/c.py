@@ -118,9 +118,10 @@ def get_formatter(theme, linenos=False):
     If the supplied theme is invalid c.py fails.
 
     Arg:
-        theme   The name of the theme as a string. Check out
-                http://pygments.org to get a list of supported
-                themes.
+        theme     The name of the theme as a string.
+                  'light' or 'dark' is supported.
+        linenos   Prefix every line with its line number.
+                  Has to be True or False.
     """
     debug('Choosing theme')
     theme_from_env = os.getenv('C_PYGMENTS_THEME')
