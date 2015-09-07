@@ -9,7 +9,7 @@ c.py - a replacement for [c]at with automatic syntax highlighting
 == Synopsis
 
 ....
-c [--no-pager] [--number] [--lexer LEXER] [--theme THEME] <file>
+c [--no-pager] [--number] [--lexer LEXER] [--theme THEME] [--] <file>...
 ....
 
 == Description
@@ -25,11 +25,11 @@ properly. The pager exits if the output fits into the screen.
 
 --no-pager::
     Do not pipe the output c.py's output into a pager. Setting the environment
-    variable `C_NO_PAGER` to a non-empty value also disabled paging.
+    variable `C_NO_PAGER` to a non-empty value also disables paging.
 
 -n::
 --number::
-    Number all output lines.
+    Prefix all output lines with a linenumber.
 
 -l LEXER::
 --lexer LEXER::
@@ -38,11 +38,30 @@ properly. The pager exits if the output fits into the screen.
     highlighting use `--lexer text`. A list of supported lexers can be obtained
     from the pygments' project page.
 
--t THEME::
 --theme THEME::
-    Use another theme instead of the default pygment's theme `friendly`. The
-    theme can also be set using the environment variable `C_PYGMENTS_THEME`.
-    A list of supported themes can be obtained from the pygments' project page.
+    Specify the pygments theme. Currently there is only `light` or `dark`
+    supported. The theme can also be set through the environment variable
+    `C_PYGMENTS_THEME`.
+
+== Evironment Variables
+
+PAGER::
+    The `PAGER` variable is honored by the `click` library. c.py uses the
+    pager which is specified in `PAGER`. It falls back to `less`.
+
+C_NO_PAGER::
+    When `C_NO_PAGER` is set to a non empty value, c.py does not pipe any
+    output to a pager.
+
+C_PYGMENTS_THEME::
+    The theme which is used by pygments can be overwritten using the environment
+    variable `C_PYGMENTS_THEME`. Currently there is only `light` and `dark`
+    supported. The theme set by this environment variable can be overwritten
+    with the command line option `--theme THEME`.
+
+C_DEBUG::
+    When set to a non empty value c.py print some potentially interesting
+    runtime information for debugging purposes to `stdout`.
 
 == Bugs
 
