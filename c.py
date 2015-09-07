@@ -82,17 +82,20 @@ def get_lexer(filename, data, lexer='auto'):
                     fails.
     """
     if lexer == 'auto':
-        debug('Guessing lexer')
+        debug("Trying to guess lexer for filename: '{}'".format(filename))
         try:
             lexer_cls = guess_lexer_for_filename(filename, data)
         except ClassNotFound:
-            debug('Guessing failed, looking for a shebang line')
             if data[0:2] == '#!':
                 debug("Shebang '{}' present".format(data[0:2]))
                 lexer_cls = guess_lexer(data)
             elif filename == '-':
-                debug("Reading from 'stdin', guessing lexer")
-                lexer_cls = guess_lexer(data)
+                try:
+                    debug("Have read from 'stdin'; guessing lexer for content")
+                    lexer_cls = guess_lexer(data)
+                except ClassNotFound:
+                    debug('Guessing failed, using fallback lexer')
+                    lexer_cls = TextLexer()
             else:
                 debug('No shebang present, using fallback lexer')
                 lexer_cls = TextLexer()
