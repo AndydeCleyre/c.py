@@ -27,6 +27,7 @@ PAGER = os.getenv('PAGER', 'cat')
 # https://github.com/git/git/blob/master/Documentation/config.txt#L646
 LESS = os.getenv('LESS', 'FRX')
 C_PYGMENTS_THEME_DEFAULT = 'dark'
+C_PYGMENTS_THEME = os.getenv('C_PYGMENTS_THEME', 'dark')
 C_NO_PAGER = True if 'C_NO_PAGER' in os.environ else False
 C_DEBUG = True if 'C_DEBUG' in os.environ else False
 __version__ = '0.1.0'
@@ -125,16 +126,15 @@ def get_formatter(theme, linenos=False):
                   Has to be True or False.
     """
     debug('Choosing theme')
-    theme_from_env = os.getenv('C_PYGMENTS_THEME')
     # Check whether C_PYGMENTS_THEME is set and whether
     # it is NOT equal to the default theme. In that case
     # it can be overwritten by the command line switch
     # "--theme THEME".
-    if theme_from_env and theme_from_env != C_PYGMENTS_THEME_DEFAULT:
+    if C_PYGMENTS_THEME != C_PYGMENTS_THEME_DEFAULT:
         if theme != C_PYGMENTS_THEME_DEFAULT:
             used_theme = theme
         else:
-            used_theme = theme_from_env
+            used_theme = C_PYGMENTS_THEME
     else:
         used_theme = theme
 
