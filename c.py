@@ -22,7 +22,12 @@ from pygments.lexers import get_lexer_by_name
 from pygments.formatters import TerminalFormatter
 
 
+PAGER = os.getenv('PAGER', 'cat')
+# This behaviour is similar to git:
+# https://github.com/git/git/blob/master/Documentation/config.txt#L646
+LESS = os.getenv('LESS', 'FRX')
 C_PYGMENTS_THEME_DEFAULT = 'dark'
+C_NO_PAGER = True if 'C_NO_PAGER' in os.environ else False
 C_DEBUG = True if 'C_DEBUG' in os.environ else False
 __version__ = '0.1.0'
 
@@ -139,19 +144,11 @@ def cli(args):
     data = read_file(filename)
     formatter = get_formatter(args['--theme'], args['--number'])
     lexer = get_lexer(filename, data, args['--lexer'])
-
-    # Highlight! :-)
     out = highlight(data, lexer, formatter)
 
-    # TODO: Other pagers than less should be supported!
-    if (args['--no-pager'] or 'C_NO_PAGER' in os.environ or
-        os.getenv('PAGER') == 'cat'):
+    if args['--no-pager'] or C_NO_PAGER or PAGER == 'cat':
         print(out)
     else:
-        # This behaviour is similar to git:
-        # https://github.com/git/git/blob/master/Documentation/config.txt#L646
-        if 'LESS' not in os.environ:
-            os.environ['LESS'] = 'FRX'
         echo_via_pager(out)
 
 
