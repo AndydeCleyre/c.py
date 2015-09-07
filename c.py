@@ -75,7 +75,7 @@ def get_lexer(filename, data, lexer='auto'):
         try:
             lexer_cls = get_lexer_by_name(lexer)
         except ClassNotFound:
-            print('Error: Invalid lexer!')
+            print("[Error] No lexer '{}' found".format(lexer), file=sys.stderr)
             exit(1)
 
     return lexer_cls
