@@ -25,7 +25,8 @@ from pygments.formatters import TerminalFormatter
 PAGER = os.getenv('PAGER', 'cat')
 # This behaviour is similar to git:
 # https://github.com/git/git/blob/master/Documentation/config.txt#L646
-LESS = os.getenv('LESS', 'FRX')
+if 'LESS' not in os.environ:
+    os.environ['LESS'] = 'FRX'
 C_PYGMENTS_THEME_DEFAULT = 'dark'
 C_PYGMENTS_THEME = os.getenv('C_PYGMENTS_THEME', 'dark')
 C_NO_PAGER = True if 'C_NO_PAGER' in os.environ else False
