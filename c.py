@@ -91,7 +91,7 @@ def get_lexer(filename, data, lexer='auto'):
             lexer_cls = guess_lexer_for_filename(filename, data)
         except ClassNotFound:
             if data[0:2] == '#!':
-                debug("Shebang '{}' present".format(data[0:2]))
+                debug("Shebang '{}' present".format(data.splitlines()[0]))
                 lexer_cls = guess_lexer(data)
             elif filename == '-':
                 try:
