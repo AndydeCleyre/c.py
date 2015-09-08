@@ -34,7 +34,7 @@ C_PYGMENTS_THEME_DEFAULT = 'dark'
 C_PYGMENTS_THEME = os.getenv('C_PYGMENTS_THEME', 'dark')
 C_NO_PAGER = True if 'C_NO_PAGER' in os.environ else False
 C_DEBUG = True if 'C_DEBUG' in os.environ else False
-__version__ = '0.1.0'
+__version__ = '0.2.0'
 
 
 def debug(msg):
