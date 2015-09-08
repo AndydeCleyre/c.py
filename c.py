@@ -1,9 +1,10 @@
 """
-Usage: c [--number] [--no-pager] [--no-pygments] [--lexer LEXER] [--theme THEME]
-         [--] <file>...
+Usage: c [--number] [--show-lexer] [--no-pager] [--no-pygments] [--lexer LEXER]
+         [--theme THEME] [--] <file>...
 
 Options:
   -n, --number              Number all output lines
+  --show-lexer              Show determined lexer and exit
   --no-pager                Disable paging
   --no-pygments             Skip pygments, behave like cat
   -l LEXER, --lexer LEXER   Specify a particular lexer        [default: auto]
@@ -155,6 +156,7 @@ def get_formatter(theme, linenos=False):
 
 def cli(args):
     filenames = args['<file>']
+    lexer = None
     out = ''
 
     for filename in filenames:
@@ -171,6 +173,12 @@ def cli(args):
             lexer = get_lexer(filename, data, args['--lexer'])
             out += highlight(data, lexer, formatter)
 
+    if args['--show-lexer']:
+        if lexer:
+            echo(lexer)
+        else:
+            echo('pygments skipped')
+        exit(0)
     if args['--no-pager'] or C_NO_PAGER or PAGER == 'cat':
         echo(out, color=True)
     else:
