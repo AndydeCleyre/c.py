@@ -31,6 +31,10 @@ properly. The pager exits if the output fits into the screen.
     Do not pipe the output c.py's output into a pager. Setting the environment
     variable `C_NO_PAGER` to a non-empty value also disables paging.
 
+--no-pygments::
+    Do not use pygments at all. This option advices c.py to bypass pygments
+    completely. That means no synthax highlighting is performed!
+
 -l LEXER::
 --lexer LEXER::
     This option forces c.py to use a particular lexer; it does not try to guess

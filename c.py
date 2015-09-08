@@ -1,9 +1,11 @@
 """
-Usage: c [--number] [--no-pager] [--lexer LEXER] [--theme THEME] [--] <file>...
+Usage: c [--number] [--no-pager] [--no-pygments] [--lexer LEXER] [--theme THEME]
+         [--] <file>...
 
 Options:
   -n, --number              Number all output lines
   --no-pager                Disable paging
+  --no-pygments             Skip pygments, behave like cat
   -l LEXER, --lexer LEXER   Specify a particular lexer        [default: auto]
   -t THEME, --theme THEME   Choose a theme: 'light' or 'dark' [default: dark]
 """
@@ -157,11 +159,17 @@ def cli(args):
 
     for filename in filenames:
         data = read_file(filename)
-        # The formatter needs to be reinitialized. Otherwise
-        # the line numbers are continued over several files.
-        formatter = get_formatter(args['--theme'], args['--number'])
-        lexer = get_lexer(filename, data, args['--lexer'])
-        out += highlight(data, lexer, formatter)
+        if args['--no-pygments']:
+            # Skip the whole pygments magic.
+            debug('Skipping pygments')
+            out += data
+        else:
+            # The formatter needs to be reinitialized. Otherwise
+            # the line numbers are continued over several files.
+            debug('Initializing pygments')
+            formatter = get_formatter(args['--theme'], args['--number'])
+            lexer = get_lexer(filename, data, args['--lexer'])
+            out += highlight(data, lexer, formatter)
 
     if args['--no-pager'] or C_NO_PAGER or PAGER == 'cat':
         echo(out, color=True)
