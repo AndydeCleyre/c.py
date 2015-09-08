@@ -60,7 +60,7 @@ C_PYGMENTS_THEME::
     with the command line option `--theme THEME`.
 
 C_DEBUG::
-    When set to a non empty value c.py print some potentially interesting
+    When set to a non empty value c.py prints some potentially interesting
     runtime information for debugging purposes to `stdout`.
 
 == Bugs
