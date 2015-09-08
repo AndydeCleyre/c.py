@@ -1,9 +1,9 @@
 """
-Usage: c [--no-pager] [--number] [--lexer LEXER] [--theme THEME] [--] <file>...
+Usage: c [--number] [--no-pager] [--lexer LEXER] [--theme THEME] [--] <file>...
 
 Options:
-  --no-pager                Disable paging
   -n, --number              Number all output lines
+  --no-pager                Disable paging
   -l LEXER, --lexer LEXER   Specify a particular lexer        [default: auto]
   -t THEME, --theme THEME   Choose a theme: 'light' or 'dark' [default: dark]
 """

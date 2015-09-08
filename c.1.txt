@@ -23,13 +23,13 @@ properly. The pager exits if the output fits into the screen.
 
 == Options
 
---no-pager::
-    Do not pipe the output c.py's output into a pager. Setting the environment
-    variable `C_NO_PAGER` to a non-empty value also disables paging.
-
 -n::
 --number::
     Prefix all output lines with a linenumber.
+
+--no-pager::
+    Do not pipe the output c.py's output into a pager. Setting the environment
+    variable `C_NO_PAGER` to a non-empty value also disables paging.
 
 -l LEXER::
 --lexer LEXER::
