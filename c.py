@@ -187,7 +187,13 @@ def cli(args):
 
 def main():
     """Main entry point; needed for setuptools"""
-    cli(docopt(__doc__, version=__version__))
+    try:
+        cli(docopt(__doc__, version=__version__))
+    except KeyboardInterrupt:
+        echo()
+        echo('KeyboardInterrupt received.')
+        echo('Bye bye...')
+        exit(1)
 
 
 if __name__ == '__main__':
