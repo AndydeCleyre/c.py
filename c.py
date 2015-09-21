@@ -1,6 +1,6 @@
 """
 Usage: c [--number] [--show-lexer] [--no-pager] [--no-pygments] [--lexer LEXER]
-         [--theme THEME] [--] [<file>...]
+         [--theme THEME] [--] [<file>...] [-]
 
 Options:
   -n, --number              Number all output lines
