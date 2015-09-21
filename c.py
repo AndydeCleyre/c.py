@@ -1,12 +1,12 @@
 """
-Usage: c [--number] [--show-lexer] [--no-pager] [--no-pygments] [--lexer LEXER]
-         [--theme THEME] [--] [<file>...] [-]
+Usage: c [--number] [--show-lexer] [--no-pager] [--skip-pygments]
+         [--lexer LEXER] [--theme THEME] [--] [<file>...] [-]
 
 Options:
   -n, --number              Number all output lines
   --show-lexer              Show determined lexer and exit
   --no-pager                Disable paging
-  --no-pygments             Skip pygments, behave like cat
+  --skip-pygments           Skip pygments, behave like cat
   -l LEXER, --lexer LEXER   Specify a particular lexer        [default: auto]
   -t THEME, --theme THEME   Choose a theme: 'light' or 'dark' [default: dark]
 """
@@ -161,7 +161,7 @@ def cli(args):
 
     for filename in filenames:
         data = read_file(filename)
-        if args['--no-pygments']:
+        if args['--skip-pygments']:
             # Skip the whole pygments magic.
             debug('Skipping pygments')
             out += data
