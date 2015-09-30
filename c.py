@@ -59,7 +59,7 @@ def read_file(filename):
             return sys.stdin.read()
         else:
             debug("Reading file: '{}'".format(filename))
-            with open(filename) as f:
+            with open(filename, 'rb') as f:
                 return f.read()
     except Exception as e:
         echo(e, err=True)
