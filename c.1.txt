@@ -52,7 +52,7 @@ properly. The pager exits if the output fits into the screen.
 
 `PAGER`::
     The `PAGER` variable is honored by the `click` library. c.py uses the
-    pager which is specified in `PAGER`. It falls back to `less`.
+    pager which is specified in `PAGER`. It falls back to `cat`.
 
 C_NO_PAGER::
     When `C_NO_PAGER` is set to a non empty value, c.py does not pipe any
