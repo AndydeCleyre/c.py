@@ -26,9 +26,13 @@ from pygments.formatters import TerminalFormatter
 
 
 PAGER = os.getenv('PAGER', 'cat')
+C_PAGER = os.getenv('C_PAGER', '')
+# If C_PAGER is set, the value of PAGER gets overwritten.
+if C_PAGER:
+    os.environ['PAGER'], PAGER = C_PAGER, C_PAGER
 # This behaviour is similar to git:
 # https://github.com/git/git/blob/master/Documentation/config.txt#L646
-if 'LESS' not in os.environ:
+if PAGER == 'LESS' and 'LESS' not in os.environ:
     os.environ['LESS'] = 'FRX'
 C_PYGMENTS_THEME_DEFAULT = 'dark'
 C_PYGMENTS_THEME = os.getenv('C_PYGMENTS_THEME', 'dark')
