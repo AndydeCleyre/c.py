@@ -4,74 +4,58 @@
 
 == Name
 
-c.py - a replacement for [c]at with automatic syntax highlighting
+c - a shell wrapper for c.py
 
 == Synopsis
 
 ----
-c [--number] [--show-lexer] [--no-pager] [--skip-pygments]
-  [--lexer LEXER] [--theme _THEME_] [--] [FILE ...] [-]
+c [-AbeEnstTuv] [-N] [-Vh] [file [file ...]] [--] [c.py options]
 ----
 
 == Description
 
-c.py aims to be a drop-in replacement for the well known tool cat(1). c.py
-is written in Python and provides some advantages over cat, for instance
-automatic syntax highlighting using the excellent pygments library. The
-output is piped through the pager `less` per default. The environment
-variable `LESS` is set to `FRS` by c.py to ensure that colors are displayed
-properly. The pager exits if the output fits into the screen.
+c(1) is a shell wrapper for c.py(1) which pipes the output automatically
+through a pager. Furthermore c(1) exposes the traditional cat(1) options
+and makes them available by piping c.py's output through cat.
 
 == Options
 
-`-n`::
-`--number`::
-    Prefix all output lines with a linenumber.
+c(1) has four categories of options: cat(1) options, less(1) options, c(1)
+options, c.py(1) options; the options in the synopsis section are grouped
+appropriately. Since each tool provides proper documentation, these options
+can be looked up there.
 
-`--no-pager`::
-    Do not pipe the output c.py's output into a pager. Setting the environment
-    variable `C_NO_PAGER` to a non-empty value also disables paging.
+`-p`::
+    Use no pager; that switch is the same as setting `C_NO_PAGER` to a
+    nonempty value.
 
-`--skip-pygments`::
-    Do not use pygments at all. This option advices c.py to bypass pygments
-    completely. That means no synthax highlighting is performed!
+`-V`::
+    Show c(1)'s version and exit.
 
-`-l` _LEXER_::
-`--lexer` _LEXER_::
-    This option forces c.py to use a particular lexer; it does not try to guess
-    one. This setting is useful when c.py guesses the wrong lexer. To disable
-    highlighting use `--lexer text`. A list of supported lexers can be obtained
-    from the pygments' project page.
-
-`--theme` _THEME_::
-    Specify the pygments theme. Currently there is only `light` or `dark`
-    supported. The theme can also be set through the environment variable
-    `C_PYGMENTS_THEME`.
+`-h`::
+    Show helppage and exit.
 
 == Evironment Variables
 
 `PAGER`::
-    The `PAGER` variable is honored by the `click` library. c.py uses the
-    pager which is specified in `PAGER`. It falls back to `cat`.
+    Use the `PAGER` variable to specify a global pager; `less` is recommended.
+
+`LESS`::
+    It is recommended to use the pager `less`. less respects the environment
+    variable `LESS`. When `LESS` is not set, c(1) sets the variable to `FRX`.
+    That enables using colors and the pager is closed automatically if the
+    output fits on the screen.
 
 `C_PAGER`::
-    The `C_PAGER` variable is honored by the `click` library. c.py uses the
-    pager which is specified in `C_PAGER`. The `C_PAGER` variable can be used
-    to overwrite `PAGER` in order to use a custom pager with c.py.
+    Can be used to overwrite `PAGER` and use a separate pager for c(1).
 
 `C_NO_PAGER`::
-    When `C_NO_PAGER` is set to a non empty value, c.py does not pipe any
-    output to a pager.
+    When `C_NO_PAGER` is set to a non empty value, no pager is used.
 
-`C_PYGMENTS_THEME`::
-    The theme which is used by pygments can be overwritten using the environment
-    variable `C_PYGMENTS_THEME`. Currently there is only `light` and `dark`
-    supported. The theme set by this environment variable can be overwritten
-    with the command line option `--theme THEME`.
-
-`C_DEBUG`::
-    When set to a non empty value c.py prints some potentially interesting
-    runtime information for debugging purposes to `stdout`.
+`C_DEV`::
+    Set this variable to a non empty value when you decide to hack the source
+    of c(1)/c.py(1). In case `C_DEV` is set, c(1) looks for the c.py(1)
+    executable in the current directory instead of searching `PATH`.
 
 == Bugs
 

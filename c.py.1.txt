@@ -1,0 +1,83 @@
+= c.py(1)
+:doctype:    manpage
+:man source: c.py
+
+== Name
+
+c.py - a replacement for [c]at with automatic syntax highlighting
+
+== Synopsis
+
+----
+c.py [-h] [--version] [-f FILENAME] [-l LEXER] [-t THEME] [-n] [-d]
+     [--skip-pygments] [--show-lexer]
+     [file [file ...]]
+----
+
+== Description
+
+c.py aims to be a replacement for the well known tool cat(1). c.py is written in
+Python and provides automatic syntax highlighting using the excellent pygments
+library. There is also a c.py shell wrapper, c(1), which extends c.py's
+functionality.
+
+== Options
+
+`-n`::
+`--number`::
+    Prefix all output lines with a linenumber.
+
+`-d`::
+`--debug`::
+    Provide additional information for debugging purposes.
+
+`--skip-pygments`::
+    Do not use pygments at all. This option advices c.py to bypass pygments
+    completely. That means no synthax highlighting is performed!
+
+`--show-lexer`::
+    Show the determined lexer(s) and exit.
+
+`-f` _FILENAME_::
+`--filename` _FILENAME_::
+    Filename to be passed to pygments when reading from stdin. Since the
+    internal filename for stdin is `-`, pygments needs additional information
+    to improve guessing the correct language.
+
+`-l` _LEXER_::
+`--lexer` _LEXER_::
+    This option forces c.py to use a particular lexer; it does not try to guess
+    one. This setting is useful when c.py guesses the wrong lexer. To disable
+    highlighting use `--lexer text`. A list of supported lexers can be obtained
+    from the pygments' project page.
+
+`-t` _THEME_::
+`--theme` _THEME_::
+    Specify the pygments theme. Currently there is only `light` or `dark`
+    supported. The theme can also be set through the environment variable
+    `C_PYGMENTS_THEME`.
+
+== Evironment Variables
+
+`C_PYGMENTS_THEME`::
+    The theme which is used by pygments can be overwritten using the environment
+    variable `C_PYGMENTS_THEME`. Currently there is only `light` and `dark`
+    supported. The theme set by this environment variable can be overwritten
+    with the command line option `--theme THEME`.
+
+`C_DEBUG`::
+    When set to a non empty value c.py prints some potentially interesting
+    runtime information for debugging purposes to `stdout`.
+
+== Bugs
+
+Bugs? You must be kidding; there are no bugs in this software. But if we
+happen to be wrong, send us an email with as much detail as possible to
+mailto:rumpelsepp@sevenbyte.org[].
+
+== Author
+
+Current maintainer: Stefan Tatschner <rumpelsepp@sevenbyte.org>
+
+For additional contributors, use `git shortlog -sne` on the c.py.git
+repository.
