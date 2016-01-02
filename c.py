@@ -1,21 +1,9 @@
-"""
-Usage: c [--number] [--show-lexer] [--no-pager] [--skip-pygments]
-         [--lexer LEXER] [--theme THEME] [--] [<file>...] [-]
+#!/usr/bin/env python3
 
-Options:
-  -n, --number              Number all output lines
-  --show-lexer              Show determined lexer and exit
-  --no-pager                Disable paging
-  --skip-pygments           Skip pygments, behave like cat
-  -l LEXER, --lexer LEXER   Specify a particular lexer        [default: auto]
-  -t THEME, --theme THEME   Choose a theme: 'light' or 'dark' [default: dark]
-"""
-
-
+import argparse
 import os
 import sys
-from click import echo, echo_via_pager
-from docopt import docopt
+import signal
 from pygments import highlight
 from pygments.util import ClassNotFound, OptionError
 from pygments.lexers import TextLexer
@@ -25,20 +13,10 @@ from pygments.lexers import get_lexer_by_name
 from pygments.formatters import TerminalFormatter
 
 
-PAGER = os.getenv('PAGER', 'cat')
-C_PAGER = os.getenv('C_PAGER', '')
-# If C_PAGER is set, the value of PAGER gets overwritten.
-if C_PAGER:
-    os.environ['PAGER'], PAGER = C_PAGER, C_PAGER
-# This behaviour is similar to git:
-# https://github.com/git/git/blob/master/Documentation/config.txt#L646
-if PAGER == 'LESS' and 'LESS' not in os.environ:
-    os.environ['LESS'] = 'FRX'
 C_PYGMENTS_THEME_DEFAULT = 'dark'
 C_PYGMENTS_THEME = os.getenv('C_PYGMENTS_THEME', 'dark')
-C_NO_PAGER = True if 'C_NO_PAGER' in os.environ else False
 C_DEBUG = True if 'C_DEBUG' in os.environ else False
-__version__ = '0.2.0'
+__version__ = '0.3.0'
 
 
 def debug(msg):
@@ -47,7 +25,7 @@ def debug(msg):
     value, print the supplied message and prefix it with '[Debug] '.
     """
     if C_DEBUG:
-        echo('[Debug] {}'.format(msg))
+        print('[Debug] {}'.format(msg))
 
 
 def read_file(filename):
@@ -58,15 +36,26 @@ def read_file(filename):
     message and causes 'c.py' to exit with return code 1.
     """
     try:
-        if filename == '-':
-            debug('Reading stdin')
-            return sys.stdin.read()
-        else:
-            debug("Reading file: '{}'".format(filename))
-            with open(filename, 'rb') as f:
-                return f.read()
+        debug("Reading file: '{}'".format(filename))
+        with open(filename, 'rb') as f:
+            return f.read()
     except Exception as e:
-        echo(e, err=True)
+        print(e, file=sys.stderr)
+        exit(1)
+
+
+def read_stdin():
+    """
+    Read the content from sys.stdin.
+
+    If any error occurs this method prints an appropriate error
+    message and causes 'c.py' to exit with return code 1.
+    """
+    try:
+        debug('Reading stdin')
+        return sys.stdin.read()
+    except Exception as e:
+        print(e, file=sys.stderr)
         exit(1)
 
 
@@ -89,6 +78,7 @@ def get_lexer(filename, data, lexer='auto'):
                     lexer class. If nothing has been found, c.py
                     fails.
     """
+    filename = filename if filename else '-'
     if lexer == 'auto':
         debug("Trying to guess lexer for filename: '{}'".format(filename))
         try:
@@ -115,7 +105,7 @@ def get_lexer(filename, data, lexer='auto'):
             debug("Trying to find lexer: '{}'".format(lexer))
             lexer_cls = get_lexer_by_name(lexer)
         except ClassNotFound:
-            echo("[Error] No lexer found: '{}'".format(lexer), err=True)
+            print("[Error] No lexer found: '{}'".format(lexer), file=sys.stderr)
             exit(1)
 
     debug('Using lexer: {}'.format(lexer_cls))
@@ -130,7 +120,7 @@ def get_formatter(theme, linenos=False):
     This method wraps the instantiation of Terminal256Formatter.
     If the supplied theme is invalid c.py fails.
 
-    Arg:
+    Args:
         theme     The name of the theme as a string.
                   'light' or 'dark' is supported.
         linenos   Prefix every line with its line number.
@@ -154,49 +144,119 @@ def get_formatter(theme, linenos=False):
     try:
         return TerminalFormatter(bg=used_theme, linenos=linenos)
     except OptionError:
-        echo("[Error] Invalid theme: '{}'".format(used_theme), err=True)
+        print("[Error] Invalid theme: '{}'".format(used_theme), file=sys.stderr)
         exit(1)
 
 
-def cli(args):
-    filenames = args['<file>'] if args['<file>'] else '-'
-    lexer = None
-    out = ''
+def process_data(data, filename, args):
+    """
+    Process, i.e. hightlight the provided data.
 
-    for filename in filenames:
-        data = read_file(filename)
-        if args['--skip-pygments']:
-            # Skip the whole pygments magic.
-            debug('Skipping pygments')
-            out += data
-        else:
-            # The formatter needs to be reinitialized. Otherwise
-            # the line numbers are continued over several files.
-            debug('Initializing pygments')
-            formatter = get_formatter(args['--theme'], args['--number'])
-            lexer = get_lexer(filename, data, args['--lexer'])
-            out += highlight(data, lexer, formatter)
-
-    if args['--show-lexer']:
-        if lexer:
-            echo(lexer)
-        else:
-            echo('pygments skipped')
-        exit(0)
-    if args['--no-pager'] or C_NO_PAGER or PAGER == 'cat':
-        echo(out, color=True)
+    Args:
+        data        The data to be highlighed.
+        filename    The filename; used for guessing
+                    the correct language
+        args        The args namespace object, which
+                    includes the command line options
+    """
+    if args.skip_pygments:
+        # Skip the whole pygments magic.
+        debug('Skipping pygments')
+        print(data.decode())
     else:
-        echo_via_pager(out, color=True)
+        # The formatter needs to be reinitialized. Otherwise
+        # the line numbers are continued over several files.
+        debug('Initializing pygments')
+        formatter = get_formatter(args.theme, args.number)
+        lexer = get_lexer(filename, data, args.lexer)
+        if args.show_lexer:
+            print('{}: {}'.format(filename, lexer))
+        else:
+            highlight(data, lexer, formatter, outfile=sys.stdout)
+
+
+def sigpipe_handler(signo, frame):
+    """
+    Signal handler for SIGPIPE. Needed to perform a clean exit
+    when the connected pager is closed by the user.
+    """
+    exit(0)
 
 
 def main():
-    """Main entry point; needed for setuptools"""
+    # Ignore broken pipe errors when writing to a pager.
+    if not sys.stdout.isatty():
+        signal.signal(signal.SIGPIPE, sigpipe_handler)
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        'file',
+        nargs='*',
+        help='file(list) to read; "-" means stdin',
+    )
+    parser.add_argument('--version', action='version', version=__version__)
+    parser.add_argument(
+        '-f',
+        '--filename',
+        help='filename to be passed to pygments when reading from stdin',
+    )
+    parser.add_argument(
+        '-l',
+        '--lexer',
+        default='auto',
+        help='force a particular lexer',
+    )
+    parser.add_argument(
+        '-t',
+        '--theme',
+        default='dark',
+        help='specify pygments theme',
+    )
+    parser.add_argument(
+        '-n',
+        '--number',
+        action='store_true',
+        help='show linenumbers',
+    )
+    parser.add_argument(
+        '-d',
+        '--debug',
+        action='store_true',
+        help='show debug output',
+    )
+    parser.add_argument(
+        '--skip-pygments',
+        action='store_true',
+        help='skip pygments; do not perform any synthax highlighting',
+    )
+    parser.add_argument(
+        '--show-lexer',
+        action='store_true',
+        help='show determined lexer',
+    )
+    args = parser.parse_args()
+
+    if args.debug:
+        global C_DEBUG
+        C_DEBUG = True
+        debug(args)
+
     try:
-        cli(docopt(__doc__, version=__version__))
+        # Handle no arguments
+        if not args.file:
+            data = read_stdin()
+            process_data(data, args.filename, args)
+
+        for filename in args.file:
+            if filename == '-':
+                data = read_stdin()
+            else:
+                data = read_file(filename)
+            process_data(data, filename, args)
+
     except KeyboardInterrupt:
-        echo()
-        echo('KeyboardInterrupt received.')
-        echo('Bye bye...')
+        print()
+        print('KeyboardInterrupt received.')
+        print('Bye bye...')
         exit(1)
 
 
