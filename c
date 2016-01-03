@@ -51,7 +51,7 @@ while getopts "AbeEnstTuvNphV" arg; do
         b)      CATOPTS="$CATOPTS -b";;
         e)      CATOPTS="$CATOPTS -e";;
         E)      CATOPTS="$CATOPTS -E";;
-        n)      CATOPTS="$CATOPTS -E";;
+        n)      CATOPTS="$CATOPTS -n";;
         s)      CATOPTS="$CATOPTS -s";;
         t)      CATOPTS="$CATOPTS -t";;
         T)      CATOPTS="$CATOPTS -T";;
