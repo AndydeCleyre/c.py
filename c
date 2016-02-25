@@ -34,7 +34,7 @@ version() {
 spawn_cpy() {
     # Only search a local "c.py" file when the environment
     # variable "C_DEV" is set to a non empty value.
-    if [ -e "./c.py" ] && [ ! -z $C_DEV ]; then
+    if [ -e "./c.py" ] && [ ! -z "$C_DEV" ]; then
         python "./c.py" "$@"
     elif which "c.py" >& /dev/null; then
         c.py "$@"
@@ -63,7 +63,7 @@ while getopts "AbeEnstTuvNphV" arg; do
     esac
 done
 
-shift $(($OPTIND - 1))
+shift $((OPTIND - 1))
 
 # When c reads from stdin and is interactive, pager must be disabled.
 # https://gist.github.com/davejamesmiller/1966557
@@ -77,16 +77,16 @@ if [ "$pager" = "less" ] && [ -z "$LESS" ]; then
     export LESS='FRX'
 fi
 
-if [ -z $pager ]; then
-    if [ -z $CATOPTS ]; then
-        spawn_cpy $@
+if [ -z "$pager" ]; then
+    if [ -z "$CATOPTS" ]; then
+        spawn_cpy "$@"
     else
-        spawn_cpy $@ | cat $CATOPTS
+        spawn_cpy "$@" | cat "$CATOPTS"
     fi
 else
-    if [ -z $CATOPTS ]; then
-        spawn_cpy $@ | $pager $LESSOPTS
+    if [ -z "$CATOPTS" ]; then
+        spawn_cpy "$@" | "$pager" "$LESSOPTS"
     else
-        spawn_cpy $@ | cat $CATOPTS | $pager $LESSOPTS
+        spawn_cpy "$@" | cat "$CATOPTS" | "$pager" "$LESSOPTS"
     fi
 fi
