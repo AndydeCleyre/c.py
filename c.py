@@ -254,9 +254,6 @@ def main():
             process_data(data, filename, args)
 
     except KeyboardInterrupt:
-        print()
-        print('KeyboardInterrupt received.')
-        print('Bye bye...')
         exit(1)
 
 
