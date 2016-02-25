@@ -57,15 +57,4 @@ can be looked up there.
     of c(1)/c.py(1). In case `C_DEV` is set, c(1) looks for the c.py(1)
     executable in the current directory instead of searching `PATH`.
 
-== Bugs
-
-Bugs? You must be kidding; there are no bugs in this software. But if we
-happen to be wrong, send us an email with as much detail as possible to
-mailto:rumpelsepp@sevenbyte.org[].
-
-== Author
-
-Current maintainer: Stefan Tatschner <rumpelsepp@sevenbyte.org>
-
-For additional contributors, use `git shortlog -sne` on the c.py.git
-repository.
+include::footer.txt[]
