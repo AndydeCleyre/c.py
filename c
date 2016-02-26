@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION="0.4.1"
+VERSION="0.4.2"
 
 usage() {
     echo "Usage: $(basename $0) [-AbeEnstTuv] [-N] [-Vh] [file [file ...]] [--] [c.py options]"
