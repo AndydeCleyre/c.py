@@ -22,11 +22,4 @@ if ! which fzf >& /dev/null; then
     exit 1
 fi
 
-if ! which c >& /dev/null; then
-    echo "c is not available in PATH!"
-    echo "Please install c.py:"
-    echo "https://github.com/rumpelsepp/c.py"
-    exit 1
-fi
-
 fzf | xargs c "$@"
