@@ -1,21 +1,21 @@
-= fc(1)
+= fuc(1)
 :doctype:    manpage
 :man source: c.py
 
 == Name
 
-fc - [f]uzzy [c]at; a shell wrapper for c(1) enabling fuzzy searching
+fuc - [fu]zzy [c]at; a shell wrapper for c(1) enabling fuzzy searching
 
 == Synopsis
 
 ----
-fc [-Vh] [additional_flags]
+fuc [-Vh] [additional_flags]
 ----
 
 == Description
 
-fc(1) is yet another small shell wrapper over c.py(1) which enables fuzzy
-file searching using fzf(1). fc(1) issues fzf(1) which reads the current
+fuc(1) is yet another small shell wrapper over c.py(1) which enables fuzzy
+file searching using fzf(1). fuc(1) issues fzf(1) which reads the current
 working directory into its buffer. The file to display can be fuzzy searched
 using fzf's interactive interface. The chosen file is then opened via c(1).
 
