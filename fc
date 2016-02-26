@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION="0.3.0"
+VERSION="0.4.0"
 
 usage() {
     echo "Usage: $(basename $0) [-Vh]"
