@@ -16,7 +16,7 @@ from pygments.formatters import TerminalFormatter
 C_PYGMENTS_THEME_DEFAULT = 'dark'
 C_PYGMENTS_THEME = os.getenv('C_PYGMENTS_THEME', 'dark')
 C_DEBUG = True if 'C_DEBUG' in os.environ else False
-__version__ = '0.4.0'
+__version__ = '0.4.1'
 
 
 def debug(msg):
