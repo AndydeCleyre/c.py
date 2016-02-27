@@ -84,9 +84,9 @@ def get_lexer(filename, data, lexer='auto'):
         try:
             lexer_cls = guess_lexer_for_filename(filename, data)
         except ClassNotFound:
-            if data[0:2] == '#!':
+            if data[0:2] == b'#!':
                 debug("Shebang '{}' present".format(data.splitlines()[0]))
-                lexer_cls = guess_lexer(data)
+                lexer_cls = guess_lexer(data.decode())
             elif filename == '-':
                 try:
                     debug("Have read from 'stdin'; guessing lexer for content")
