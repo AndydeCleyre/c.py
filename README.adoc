@@ -1,0 +1,25 @@
+= c.py
+
+`c.py` is replacement for cat. c.py is written in a few lines of Python code
+and provides automatic syntax highlighting with pygments. Paging support is
+provided by a shell wrapper called `c`. See the manpages
+https://docs.sevenbyte.org/c.py/c.1.html[`c(1)`] and
+https://docs.sevenbyte.org/c.py/c.py.1.html[`c.py(1)`] for more information. A
+short introduction can be read
+https://blog.sevenbyte.org/2016/05/15/cat-with-syntax-highlighting.html[here].
+
+== Install
+
+On Arch Linux there is an https://aur.archlinux.org/packages/cpy[AUR package]
+available. `c.py` can be installed using your favorite AUR helper, such as
+https://github.com/rmarquis/pacaur[pacaur].
+
+----
+$ pacaur -S cpy
+----
+
+If you like installing the script the hard, manual and *unsupported* way you
+can just drop the `c.py` and `c` files somewhere into your `$PATH`. Make sure
+that the https://bitbucket.org/birkenfeld/pygments-main[pygments] library is
+installed for python3.
+
