@@ -57,4 +57,4 @@ can be looked up there.
     of c(1)/c.py(1). In case `C_DEV` is set, c(1) looks for the c.py(1)
     executable in the current directory instead of searching `PATH`.
 
-include::footer.txt[]
+include::footer.adoc[]

@@ -69,4 +69,4 @@ functionality.
     When set to a non empty value c.py prints some potentially interesting
     runtime information for debugging purposes to `stdout`.
 
-include::footer.txt[]
+include::footer.adoc[]

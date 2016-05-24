@@ -20,19 +20,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-ASCIIDOC = asciidoctor
-# asciidoctor 1.5.3 provides a manpage backend, but that's not ready yet.
-# to build the manpages with asciidoctor "make" has to be invoked like:
-#   $ make ASCIIDOC_MAN=asciidoctor ASCIIDOC_MAN_FLAGS=" -d manpage -b manpage"
-ASCIIDOC_MAN		= a2x
-ASCIIDOC_MAN_FLAGS	= -f manpage
-ASCIIDOC_HTML_FLAGS	=
+ASCIIDOC            = asciidoctor
+ASCIIDOC_MAN        = asciidoctor
+ASCIIDOC_MAN_FLAGS  = -d manpage -b manpage
+ASCIIDOC_HTML_FLAGS =
 
-MAN1_TXTS	= $(wildcard *.1.txt)
-DOC_MAN1	= $(patsubst %.txt,%,$(MAN1_TXTS))
-MAN_TXT		= $(MAN1_TXTS)
-DOC_HTML	= $(patsubst %.txt,%.html,$(MAN_TXT))
-INCLUDES	= footer.txt
+MAN1_ADOCS	= $(wildcard *.1.adoc)
+DOC_MAN1	= $(patsubst %.adoc,%,$(MAN1_ADOCS))
+MAN_ADOC	= $(MAN1_ADOCS)
+DOC_HTML	= $(patsubst %.adoc,%.html,$(MAN_ADOC))
+INCLUDES	= footer.adoc
 CSS			=
 
 all: html man
@@ -42,8 +39,8 @@ html: $(DOC_HTML)
 man: man1
 man1: $(DOC_MAN1)
 
-%.1 : %.1.txt $(INCLUDES)
+%.1 : %.1.adoc $(INCLUDES)
 	$(ASCIIDOC_MAN) $(ASCIIDOC_MAN_FLAGS) $<
 
-%.html : %.txt $(INCLUDES) $(CSS)
+%.html : %.adoc $(INCLUDES) $(CSS)
 	$(ASCIIDOC) $(ASCIIDOC_HTML_FLAGS) $<

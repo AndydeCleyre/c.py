@@ -30,7 +30,7 @@ two exceptions:
 `-h`::
     Show helppage and exit.
 
-include::footer.txt[]
+include::footer.adoc[]
 
 == See also
 
