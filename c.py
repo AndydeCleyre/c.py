@@ -10,11 +10,11 @@ from pygments.lexers import TextLexer
 from pygments.lexers import guess_lexer
 from pygments.lexers import guess_lexer_for_filename
 from pygments.lexers import get_lexer_by_name
-from pygments.formatters import TerminalFormatter
+from pygments.formatters import TerminalTrueColorFormatter
 
 
-C_PYGMENTS_THEME_DEFAULT = 'dark'
-C_PYGMENTS_THEME = os.getenv('C_PYGMENTS_THEME', 'dark')
+C_PYGMENTS_THEME_DEFAULT = 'monokai'
+C_PYGMENTS_THEME = os.getenv('C_PYGMENTS_THEME', 'monokai')
 C_DEBUG = True if 'C_DEBUG' in os.environ else False
 __version__ = '0.4.3'
 
@@ -112,7 +112,7 @@ def get_lexer(filename, data, lexer='auto'):
     return lexer_cls
 
 
-def get_formatter(theme, linenos=False):
+def get_formatter(theme):
     """
     Return a TerminalFormatter class with the
     supplied theme enabled.
@@ -123,8 +123,6 @@ def get_formatter(theme, linenos=False):
     Args:
         theme     The name of the theme as a string.
                   'light' or 'dark' is supported.
-        linenos   Prefix every line with its line number.
-                  Has to be True or False.
     """
     debug('Choosing theme')
     # Check whether C_PYGMENTS_THEME is set and whether
@@ -142,7 +140,7 @@ def get_formatter(theme, linenos=False):
     debug("Using theme '{}'".format(used_theme))
 
     try:
-        return TerminalFormatter(bg=used_theme, linenos=linenos)
+        return TerminalTrueColorFormatter(style=used_theme)
     except OptionError:
         print("[Error] Invalid theme: '{}'".format(used_theme), file=sys.stderr)
         exit(1)
@@ -167,7 +165,7 @@ def process_data(data, filename, args):
         # The formatter needs to be reinitialized. Otherwise
         # the line numbers are continued over several files.
         debug('Initializing pygments')
-        formatter = get_formatter(args.theme, args.number)
+        formatter = get_formatter(args.theme)
         lexer = get_lexer(filename, data, args.lexer)
         if args.show_lexer:
             print('{}: {}'.format(filename, lexer))
@@ -208,14 +206,8 @@ def main():
     parser.add_argument(
         '-t',
         '--theme',
-        default='dark',
+        default='monokai',
         help='specify pygments theme',
-    )
-    parser.add_argument(
-        '-n',
-        '--number',
-        action='store_true',
-        help='show linenumbers',
     )
     parser.add_argument(
         '-d',
