@@ -9,8 +9,8 @@ c.py - a replacement for [c]at with automatic syntax highlighting
 == Synopsis
 
 ----
-c.py [-h] [--version] [-f FILENAME] [-l LEXER] [-t THEME] [-n] [-d]
-     [--skip-pygments] [--show-lexer]
+c.py [-h] [--version] [-f FILENAME] [-l LEXER] [-t THEME] [-d]
+     [--skip-pygments] [--show-lexer] [--show-themes]
      [file [file ...]]
 ----
 
