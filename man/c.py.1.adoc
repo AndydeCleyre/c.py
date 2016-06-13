@@ -23,53 +23,53 @@ functionality.
 
 == Options
 
-`-n`::
-`--number`::
+*-n*::
+*--number*::
     Prefix all output lines with a linenumber.
 
-`-d`::
-`--debug`::
+*-d*::
+*--debug*::
     Provide additional information for debugging purposes.
 
-`--skip-pygments`::
+*--skip-pygments*::
     Do not use pygments at all. This option advices c.py to bypass pygments
     completely. That means no synthax highlighting is performed!
 
-`--show-lexer`::
+*--show-lexer*::
     Show the determined lexer(s) and exit.
 
-`--show-themes`::
+*--show-themes*::
     Show all available themes and exit. The printed strings can be used for
     the `-t`, or `--theme` option.
 
-`-f` _FILENAME_::
-`--filename` _FILENAME_::
+*-f* _FILENAME_::
+*--filename* _FILENAME_::
     Filename to be passed to pygments when reading from stdin. Since the
     internal filename for stdin is `-`, pygments needs additional information
     to improve guessing the correct language.
 
-`-l` _LEXER_::
-`--lexer` _LEXER_::
+*-l* _LEXER_::
+*--lexer* _LEXER_::
     This option forces c.py to use a particular lexer; it does not try to guess
     one. This setting is useful when c.py guesses the wrong lexer. To disable
     highlighting use `--lexer text`. A list of supported lexers can be obtained
     from the pygments' project page.
 
-`-t` _THEME_::
-`--theme` _THEME_::
+*-t* _THEME_::
+*--theme* _THEME_::
     Specify the pygments theme. Currently there is only `light` or `dark`
     supported. The theme can also be set through the environment variable
     `C_PYGMENTS_THEME`.
 
 == Evironment Variables
 
-`C_PYGMENTS_THEME`::
+*C_PYGMENTS_THEME*::
     The theme which is used by pygments can be overwritten using the environment
     variable `C_PYGMENTS_THEME`. Currently there is only `light` and `dark`
     supported. The theme set by this environment variable can be overwritten
     with the command line option `--theme THEME`.
 
-`C_DEBUG`::
+*C_DEBUG*::
     When set to a non empty value c.py prints some potentially interesting
     runtime information for debugging purposes to `stdout`.
 
