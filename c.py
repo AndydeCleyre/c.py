@@ -16,7 +16,7 @@ from pygments.formatters import TerminalTrueColorFormatter
 C_PYGMENTS_THEME_DEFAULT = 'monokai'
 C_PYGMENTS_THEME = os.getenv('C_PYGMENTS_THEME', 'monokai')
 C_DEBUG = True if 'C_DEBUG' in os.environ else False
-__version__ = '0.4.3'
+__version__ = '0.5.0'
 
 
 def debug(msg):
