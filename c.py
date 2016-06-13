@@ -225,6 +225,11 @@ def main():
         action='store_true',
         help='show determined lexer',
     )
+    parser.add_argument(
+        '--show-themes',
+        action='store_true',
+        help='show all available themes',
+    )
     args = parser.parse_args()
 
     if args.debug:
@@ -233,6 +238,12 @@ def main():
         debug(args)
 
     try:
+        if args.show_themes:
+            from pygments.styles import get_all_styles
+            from pprint import pprint
+            pprint(list(get_all_styles()))
+            exit(0)
+
         # Handle no arguments
         if not args.file:
             data = read_stdin()
