@@ -79,14 +79,14 @@ fi
 
 if [ -z "$pager" ]; then
     if [ -z "$CATOPTS" ]; then
-        spawn_cpy $@
+        spawn_cpy "$@"
     else
-        spawn_cpy $@ | cat $CATOPTS
+        spawn_cpy "$@" | cat $CATOPTS
     fi
 else
     if [ -z "$CATOPTS" ]; then
-        spawn_cpy $@ | $pager $LESSOPTS
+        spawn_cpy "$@" | $pager $LESSOPTS
     else
-        spawn_cpy $@ | cat $CATOPTS | $pager $LESSOPTS
+        spawn_cpy "$@" | cat $CATOPTS | $pager $LESSOPTS
     fi
 fi
