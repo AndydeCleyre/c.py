@@ -14,7 +14,7 @@ from pygments.formatters import TerminalTrueColorFormatter
 
 
 C_PYGMENTS_THEME_DEFAULT = 'native'
-C_PYGMENTS_THEME = os.getenv('C_PYGMENTS_THEME', 'monokai')
+C_PYGMENTS_THEME = os.getenv('C_PYGMENTS_THEME', 'native')
 C_DEBUG = True if 'C_DEBUG' in os.environ else False
 __version__ = '0.5.1'
 
@@ -206,7 +206,7 @@ def main():
     parser.add_argument(
         '-t',
         '--theme',
-        default='monokai',
+        default='native',
         help='specify pygments theme',
     )
     parser.add_argument(
