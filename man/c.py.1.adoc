@@ -38,6 +38,10 @@ functionality.
 `--show-lexer`::
     Show the determined lexer(s) and exit.
 
+`--show-themes`::
+    Show all available themes and exit. The printed strings can be used for
+    the `-t`, or `--theme` option.
+
 `-f` _FILENAME_::
 `--filename` _FILENAME_::
     Filename to be passed to pygments when reading from stdin. Since the
