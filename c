@@ -2,7 +2,14 @@
 
 VERSION="0.5.2"
 
+os_fail() {
+    echo "Current Operating System not supported!"
+    echo "Please file a bug at github: https://github.com/rumpelsepp/c.py"
+    exit 1
+}
+
 usage() {
+if [ "$(uname)" = "Linux" ]; then
     echo "Usage: $(basename $0) [-AbeEnstTuv] [-N] [-Vh] [file [file ...]] [--] [c.py options]"
     echo ""
     echo "cat(1) options:"
@@ -15,6 +22,21 @@ usage() {
     echo "  -t      equivalent to -vT"
     echo "  -T,     display TAB characters as ^I"
     echo "  -v,     use ^ and M- notation, except for LFD and TAB"
+elif [ "$(uname)" = "FreeBSD" ]; then
+    echo "Usage: $(basename $0) [-belnstuv] [-N] [-Vh] [file [file ...]] [--] [c.py options]"
+    echo ""
+    echo "cat(1) options:"
+    echo "  -b,     Number the non-blank output lines, starting at 1"
+    echo "  -e      Display non-printing characters and a '$' sign at the end of the line"
+    echo "  -l      Set an exclusive advisory lock on stdout"
+    echo "  -n,     Number all output lines, starting at 1"
+    echo "  -s,     Squeeze multiple adjacent empty lines"
+    echo "  -t      Display non-printing characters and tabs characters as '^I'"
+    echo "  -u      Disable output buffering"
+    echo "  -v,     Display non-printing characters so they are visible"
+else
+    os_fail
+fi
     echo ""
     echo "less(1) options:"
     echo "  -N      show linenumbers"
@@ -45,23 +67,46 @@ spawn_cpy() {
     fi
 }
 
-while getopts "AbeEnstTuvNphV" arg; do
-    case $arg in
-        A)      CATOPTS="$CATOPTS -A";;
-        b)      CATOPTS="$CATOPTS -b";;
-        e)      CATOPTS="$CATOPTS -e";;
-        E)      CATOPTS="$CATOPTS -E";;
-        n)      CATOPTS="$CATOPTS -n";;
-        s)      CATOPTS="$CATOPTS -s";;
-        t)      CATOPTS="$CATOPTS -t";;
-        T)      CATOPTS="$CATOPTS -T";;
-        v)      CATOPTS="$CATOPTS -v";;
-        N)      LESSOPTS="$LESSOPTS -N";;
-        p)      C_NO_PAGER='y';;
-        h)      usage;   exit 0;;
-        V)      version; exit 0;;
-    esac
-done
+if [ "$(uname)" = "Linux" ]; then
+    while getopts "AbeEnstTuvNphV" arg; do
+        case $arg in
+            A)      CATOPTS="$CATOPTS -A";;
+            b)      CATOPTS="$CATOPTS -b";;
+            e)      CATOPTS="$CATOPTS -e";;
+            E)      CATOPTS="$CATOPTS -E";;
+            n)      CATOPTS="$CATOPTS -n";;
+            s)      CATOPTS="$CATOPTS -s";;
+            t)      CATOPTS="$CATOPTS -t";;
+            T)      CATOPTS="$CATOPTS -T";;
+            v)      CATOPTS="$CATOPTS -v";;
+            N)      LESSOPTS="$LESSOPTS -N";;
+            p)      C_NO_PAGER='y';;
+            h)      usage;   exit 0;;
+            V)      version; exit 0;;
+        esac
+    done
+
+elif [ "$(uname)" = "FreeBSD" ]; then
+    while getopts "belnstuvNphV" arg; do
+        case $arg in
+            b)      CATOPTS="$CATOPTS -b";;
+            e)      CATOPTS="$CATOPTS -e";;
+            l)      CATOPTS="$CATOPTS -l";;
+            n)      CATOPTS="$CATOPTS -n";;
+            s)      CATOPTS="$CATOPTS -s";;
+            t)      CATOPTS="$CATOPTS -t";;
+            u)      CATOPTS="$CATOPTS -u";;
+            v)      CATOPTS="$CATOPTS -v";;
+            N)      LESSOPTS="$LESSOPTS -N";;
+            p)      C_NO_PAGER='y';;
+            h)      usage;   exit 0;;
+            V)      version; exit 0;;
+        esac
+    done
+
+else
+    os_fail
+fi
 
 shift $((OPTIND - 1))
 
