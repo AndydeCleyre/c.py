@@ -20,27 +20,27 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-ASCIIDOC            = asciidoctor
-ASCIIDOC_MAN        = asciidoctor
-ASCIIDOC_MAN_FLAGS  = -d manpage -b manpage
-ASCIIDOC_HTML_FLAGS =
+RST_MAN				= rst2man
+RST_MAN_FLAGS		=
+RST_HTML			= rst2html5-mg
+RST_HTML_FLAGS		= --bootstrap-css
 
-MAN1_ADOCS	= $(wildcard *.1.adoc)
-DOC_MAN1	= $(patsubst %.adoc,%,$(MAN1_ADOCS))
-MAN_ADOC	= $(MAN1_ADOCS)
-DOC_HTML	= $(patsubst %.adoc,%.html,$(MAN_ADOC))
-INCLUDES	= footer.adoc
+MAN1_RSTS	= $(wildcard *.1.rst)
+DOC_MAN1	= $(patsubst %.rst,%,$(MAN1_RSTS))
+MAN_RST		= $(MAN1_RSTS)
+DOC_HTML	= $(patsubst %.rst,%.html,$(MAN_RST))
+INCLUDES	= footer.rst
 CSS			=
 
-all: html man
-
-html: $(DOC_HTML)
+all: man html
 
 man: man1
 man1: $(DOC_MAN1)
 
-%.1 : %.1.adoc $(INCLUDES)
-	$(ASCIIDOC_MAN) $(ASCIIDOC_MAN_FLAGS) $<
+html: $(DOC_HTML)
 
-%.html : %.adoc $(INCLUDES) $(CSS)
-	$(ASCIIDOC) $(ASCIIDOC_HTML_FLAGS) $<
+%.1 : %.1.rst $(INCLUDES)
+	$(RST_MAN) $(RST_MAN_FLAGS) $< $@
+
+%.html : %.rst $(INCLUDES) $(CSS)
+	$(RST_HTML) $(RST_HTML_FLAGS) $< $@
