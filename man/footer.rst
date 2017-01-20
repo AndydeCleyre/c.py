@@ -1,12 +1,14 @@
-== Bugs
+Bugs
+----
 
 Bugs? You must be kidding; there are no bugs in this software. But if we
 happen to be wrong, send us an email with as much detail as possible to
-mailto:rumpelsepp@sevenbyte.org[].
+rumpelsepp@sevenbyte.org.
 
-== Author
+Author
+------
 
 Current maintainer: Stefan Tatschner <rumpelsepp@sevenbyte.org>
 
-For additional contributors, use `git shortlog -sne` on the c.py.git
+For additional contributors, use ``git shortlog -sne`` on the c.py.git
 repository.
