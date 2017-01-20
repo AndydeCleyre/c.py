@@ -10,7 +10,9 @@ a shell wrapper for c.py
 Synopsis
 --------
 
-c [-AbeEnstTuv] [-N] [-Vh] [file [file ...]] [--] [c.py options]
+::
+
+    c [-AbeEnstTuv] [-N] [-Vh] [file [file ...]] [--] [c.py options]
 
 Description
 -----------

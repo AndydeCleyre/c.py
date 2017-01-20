@@ -10,7 +10,9 @@ fuc
 Synopsis
 --------
 
-fuc [-Vh] [additional_flags]
+::
+
+    fuc [-Vh] [additional_flags]
 
 Description
 -----------
