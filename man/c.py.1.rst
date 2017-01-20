@@ -1,76 +1,76 @@
-= c.py(1)
-:doctype:    manpage
-:man source: c.py
+c.py
+====
 
-== Name
+----------------------------------------------------------
+a replacement for [c]at with automatic syntax highlighting
+----------------------------------------------------------
 
-c.py - a replacement for [c]at with automatic syntax highlighting
+:Manual section: 1
 
-== Synopsis
+Synopsis
+--------
 
-----
-c.py [-h] [--version] [-f FILENAME] [-l LEXER] [-t THEME] [-d]
-     [--skip-pygments] [--show-lexer] [--show-themes]
-     [file [file ...]]
-----
+::
 
-== Description
+    c.py [-h] [--version] [-f FILENAME] [-l LEXER] [-t THEME] [-d]
+         [--skip-pygments] [--show-lexer] [--show-themes]
+         [file [file ...]]
+
+Description
+-----------
 
 c.py aims to be a replacement for the well known tool cat(1). c.py is written in
 Python and provides automatic syntax highlighting using the excellent pygments
 library. There is also a c.py shell wrapper, c(1), which extends c.py's
 functionality.
 
-== Options
+Options
+-------
 
-*-n*::
-*--number*::
+\-n, --number
     Prefix all output lines with a linenumber.
 
-*-d*::
-*--debug*::
+\-d, --debug
     Provide additional information for debugging purposes.
 
-*--skip-pygments*::
+--skip-pygments
     Do not use pygments at all. This option advices c.py to bypass pygments
     completely. That means no synthax highlighting is performed!
 
-*--show-lexer*::
+--show-lexer
     Show the determined lexer(s) and exit.
 
-*--show-themes*::
+--show-themes
     Show all available themes and exit. The printed strings can be used for
     the `-t`, or `--theme` option.
 
-*-f* _FILENAME_::
-*--filename* _FILENAME_::
+\-f FILENAME, --filename FILENAME
     Filename to be passed to pygments when reading from stdin. Since the
-    internal filename for stdin is `-`, pygments needs additional information
+    internal filename for stdin is ``-``, pygments needs additional information
     to improve guessing the correct language.
 
-*-l* _LEXER_::
-*--lexer* _LEXER_::
+\-l LEXER, --lexer LEXER
     This option forces c.py to use a particular lexer; it does not try to guess
     one. This setting is useful when c.py guesses the wrong lexer. To disable
-    highlighting use `--lexer text`. A list of supported lexers can be obtained
+    highlighting use ``--lexer text``. A list of supported lexers can be obtained
     from the pygments' project page.
 
-*-t* _THEME_::
-*--theme* _THEME_::
-    Specify the pygments theme. Currently there is only `light` or `dark`
+\-t THEME, --theme THEME
+    Specify the pygments theme. Currently there is only ``light`` or ``dark``
     supported. The theme can also be set through the environment variable
-    `C_PYGMENTS_THEME`.
+    ``C_PYGMENTS_THEME``.
 
-== Evironment Variables
+Evironment Variables
+--------------------
 
-*C_PYGMENTS_THEME*::
+C_PYGMENTS_THEME
     The theme which is used by pygments can be overwritten using the environment
-    variable `C_PYGMENTS_THEME`. Currently there is only `light` and `dark`
+    variable ``C_PYGMENTS_THEME``. Currently there is only ``light`` and ``dark``
     supported. The theme set by this environment variable can be overwritten
-    with the command line option `--theme THEME`.
+    with the command line option ``--theme THEME``.
 
-*C_DEBUG*::
+C_DEBUG
     When set to a non empty value c.py prints some potentially interesting
-    runtime information for debugging purposes to `stdout`.
+    runtime information for debugging purposes to ``stdout``.
 
-include::footer.adoc[]
+.. include:: footer.rst
